@@ -46,16 +46,18 @@ class PubMedBookArticle(object):
                 self.__setattr__(field, kwargs.get(field, None))
 
     def _extractPubMedId(self: object, xml_element: TypeVar("Element")) -> str:
-        path = ".//ArticleId[@IdType='pubmed']"
+        # path = ".//ArticleId[@IdType='pubmed']"# o original pegava os ids de referencias - isso nos artigos, nao testei em books
+        path = ".//PubmedData/ArticleIdList/ArticleId[@IdType='pubmed']"
+
         return getContent(element=xml_element, path=path)
 
     def _extractTitle(self: object, xml_element: TypeVar("Element")) -> str:
         path = ".//BookTitle"
-        return getContent(element=xml_element, path=path)
+        return '"' + getContent(element=xml_element, path=path) + '"'
 
     def _extractAbstract(self: object, xml_element: TypeVar("Element")) -> str:
         path = ".//AbstractText"
-        return getContent(element=xml_element, path=path)
+        return '"' + getContent(element=xml_element, path=path) + '"'
 
     def _extractCopyrights(self: object, xml_element: TypeVar("Element")) -> str:
         path = ".//CopyrightInformation"

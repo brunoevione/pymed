@@ -14,13 +14,12 @@ from .book import PubMedBookArticle
 # Base url for all queries
 BASE_URL = "https://eutils.ncbi.nlm.nih.gov"
 
-
 class PubMed(object):
     """ Wrapper around the PubMed API.
     """
 
     def __init__(
-        self: object, tool: str = "my_tool", email: str = "my_email@example.com"
+        self: object, tool: str = "tcc", email: str = "bruno.evione@gmail.com"
     ) -> None:
         """ Initialization of the object.
 
@@ -150,6 +149,7 @@ class PubMed(object):
             return response.json()
         else:
             return response.text
+
 
     def _getArticles(self: object, article_ids: list) -> list:
         """ Helper method that batches a list of article IDs and retrieves the content.

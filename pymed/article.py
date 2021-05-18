@@ -47,12 +47,13 @@ class PubMedArticle(object):
                 self.__setattr__(field, kwargs.get(field, None))
 
     def _extractPubMedId(self: object, xml_element: TypeVar("Element")) -> str:
-        path = ".//ArticleId[@IdType='pubmed']"
+        # path = ".//ArticleId[@IdType='pubmed']" # o original pegava os ids de referencias
+        path = ".//PubmedData/ArticleIdList/ArticleId[@IdType='pubmed']"
         return getContent(element=xml_element, path=path)
 
     def _extractTitle(self: object, xml_element: TypeVar("Element")) -> str:
         path = ".//ArticleTitle"
-        return getContent(element=xml_element, path=path)
+        return '"' + getContent(element=xml_element, path=path) + '"'
 
     def _extractKeywords(self: object, xml_element: TypeVar("Element")) -> str:
         path = ".//Keyword"
@@ -66,7 +67,7 @@ class PubMedArticle(object):
 
     def _extractAbstract(self: object, xml_element: TypeVar("Element")) -> str:
         path = ".//AbstractText"
-        return getContent(element=xml_element, path=path)
+        return '"' + getContent(element=xml_element, path=path) + '"'
 
     def _extractConclusions(self: object, xml_element: TypeVar("Element")) -> str:
         path = ".//AbstractText[@Label='CONCLUSION']"
@@ -111,7 +112,8 @@ class PubMedArticle(object):
             return None
 
     def _extractAuthors(self: object, xml_element: TypeVar("Element")) -> list:
-        return [
+        print('------------------')
+        resposta =  [
             {
                 "lastname": getContent(author, ".//LastName", None),
                 "firstname": getContent(author, ".//ForeName", None),
@@ -120,6 +122,10 @@ class PubMedArticle(object):
             }
             for author in xml_element.findall(".//Author")
         ]
+
+        print(resposta)
+        print('*************************')
+        return resposta
 
     def _initializeFromXML(self: object, xml_element: TypeVar("Element")) -> None:
         """ Helper method that parses an XML element into an article object.

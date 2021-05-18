@@ -108,3 +108,8 @@ test-reports/
 .coveragerc
 test_env/
 .vscode/settings.json
+exemplo.xml
+gui_pymed copy.py
+Problema da lib pymed na obtenção dos ids.docx
+Untitled.ipynb
+testesXml.py
